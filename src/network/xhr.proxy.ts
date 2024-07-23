@@ -2,6 +2,7 @@ import { getBytesText, getDate } from '../lib/tool';
 import * as Helper from './helper';
 import { VConsoleNetworkRequestItem } from './requestItem';
 import type { IOnUpdateCallback } from './helper';
+declare const cb22: any
 
 export class XHRProxyHandler<T extends XMLHttpRequest> implements ProxyHandler<T> {
   public XMLReq: XMLHttpRequest;
@@ -29,7 +30,7 @@ export class XHRProxyHandler<T extends XMLHttpRequest> implements ProxyHandler<T
 
       case 'send':
         return this.getSend(target);
-      
+
       case 'setRequestHeader':
         return this.getSetRequestHeader(target);
 
@@ -121,6 +122,7 @@ export class XHRProxyHandler<T extends XMLHttpRequest> implements ProxyHandler<T
       // console.log('Proxy send()');
       const data: XMLHttpRequestBodyInit = args[0];
       this.item.postData = Helper.genFormattedBody(data);
+      cb22 && cb22(this.item)
       this.triggerUpdate();
       return targetFunction.apply(target, args);
     };
